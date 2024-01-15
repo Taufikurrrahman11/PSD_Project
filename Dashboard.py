@@ -70,8 +70,9 @@ all_df.reset_index(inplace=True)
 for column in datetime_columns:
     all_df[column] = pd.to_datetime(all_df[column])
 
-min_date = all_df["order_purchase_timestamp"].min()
-max_date = all_df["order_purchase_timestamp"].max()
+main_df = all_df[(all_df["order_purchase_timestamp"] >= min_date) & 
+                (all_df["order_purchase_timestamp"] <= max_date)]
+
  
 with st.sidebar:
     # Menambahkan logo perusahaan
@@ -105,7 +106,7 @@ with col1:
     st.metric("Total orders", value=total_orders)
  
 with col2:
-    total_revenue = format_currency(daily_orders_df.revenue.sum(), "AUD", locale='es_CO') 
+    total_revenue = format_currency(daily_orders_df.revenue.sum(), "AUD", locale='en_US')
     st.metric("Total Revenue", value=total_revenue)
  
 fig, ax = plt.subplots(figsize=(16, 8))
@@ -125,8 +126,8 @@ st.subheader("Best & Worst Performing Product")
  
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(35, 15))
  
-colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
- 
+colors = ["#D3D3D3", "#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
+
 sns.barplot(x="payment_installments", y="payment_type", data=sum_order_items_df.head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel(None)
 ax[0].set_xlabel("Number of Sales", fontsize=30)
