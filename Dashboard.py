@@ -54,11 +54,7 @@ def create_rfm_df(df):
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
-
-try:
-    all_df = pd.read_csv("/path/to/Dashboard/all_data.csv")
-except FileNotFoundError:
-    print("The file 'all_data.csv' does not exist. Please check the file path.")
+all_df = pd.read_csv("all_data.csv")
 
 datetime_columns = ["order_estimated_delivery_date", "order_purchase_timestamp"]
 all_df.sort_values(by="order_purchase_timestamp", inplace=True)
